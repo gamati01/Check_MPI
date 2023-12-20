@@ -36,7 +36,9 @@
       integer:: i, uni
       integer:: ierr, len                    ! mpi variables
       character*15 hname
+      character*17 file_name1
       character*17 file_name2
+      character*17 file_name3
       character*15 file_name5
 !
       real(mykind):: knorm
@@ -140,9 +142,19 @@
 #endif
 !
 ! prof_i
-      file_name2 = 'prof_i.xxxxxx.dat'
+      file_name1 = 'prof_i.xxxxxx.dat'
+      write(file_name1(8:13),3100) myrank
+      open(61,file=file_name1, status='unknown')
+!
+! prof_j
+      file_name2 = 'prof_j.xxxxxx.dat'
       write(file_name2(8:13),3100) myrank
-      open(61,file=file_name2, status='unknown')
+      open(62,file=file_name2, status='unknown')
+!
+! prof_k
+      file_name3 = 'prof_k.xxxxxx.dat'
+      write(file_name3(8:13),3100) myrank
+      open(63,file=file_name3, status='unknown')
 !
 ! task.log
       file_name5 = 'task.xxxxxx.log'

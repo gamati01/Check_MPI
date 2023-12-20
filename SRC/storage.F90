@@ -52,8 +52,8 @@
         logical periodic(mpid)
         logical rreorder
 !
-        real(mystor), dimension(:,:,:), contiguous, pointer :: field1
-        real(mystor), dimension(:,:,:), contiguous, pointer :: field2
-        real(mystor), dimension(:,:,:), contiguous, pointer :: field3
+        real(mystor), dimension(:,:,:), allocatable :: field1, temp1
+        real(mystor), dimension(:,:,:), allocatable :: field2, temp2
+        real(mystor), dimension(:,:,:), allocatable :: field3, temp3
 !
         end module  storage

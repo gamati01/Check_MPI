@@ -111,6 +111,8 @@ OBJ  = storage.o \
        bcond.comm.step3.o \
        setup_MPI.o \
        prof_i.o \
+       prof_j.o \
+       prof_k.o \
        outdat.o \
 
 #----------------------------------------------

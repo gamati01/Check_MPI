@@ -63,21 +63,24 @@
       call SYSTEM_CLOCK(countE0, count_rate, count_max)
       call time(tcountE0)
 !
-!$acc data copyin(field1,field2,field3)
+!$acc data copy(field1,field2,field3,temp1,temp2,temp3)
 !
 ! main loop starts here.....
       do itime=1,itfin
-         call boundaries         ! MPI CALL 
-         call do_somethingGPU    ! dso something on GP
+         call boundaries         ! MPI call 
+         call do_somethingGPU    ! do something on GP
 !
-         if(mod(itime,1)==0) then
+! diagnostic         
+         if(mod(itime,25)==1) then
             if(myrank==0) then
                write(6,*) "Iteration =", itime, "/", itfin
 !               write(6,*) "VALIDATION (x): ", field1(l/2,m/2,n/2)
 !               write(6,*) "VALIDATION (y): ", field2(l/2,m/2,n/2)
 !               write(6,*) "VALIDATION (z): ", field3(l/2,m/2,n/2)
             endif
-!            call prof_i(itime,m/2,n/2)
+            call prof_i(itime,m/2,n/2)
+            call prof_j(itime,l/2,n/2)
+            call prof_k(itime,l/2,m/2)
          endif
 !
       enddo

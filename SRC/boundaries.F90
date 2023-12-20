@@ -27,7 +27,6 @@
 !
         implicit none
         integer:: ierr, i
-        real(mykind):: temp1, temp2
 !
 #ifdef DEBUG_2
         if(myrank == 0) then

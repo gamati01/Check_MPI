@@ -65,6 +65,7 @@
 
         tag = 04
 
+!$acc kernels
         do j = 0,m+1
            do i = 0,l+1
               bufferZIN(i,j,1)=field1(i,j,n)
@@ -72,12 +73,13 @@
               bufferZIN(i,j,3)=field3(i,j,n)
            enddo
         enddo
+!$acc end kernels
 !
         call mpi_sendrecv(bufferZIN(0,0,1),msgsizeZ,MYMPIREAL,up(2),tag,&
                           bufferZOUT(0,0,1),msgsizeZ,MYMPIREAL,down(2),tag,&
                           lbecomm,status,ierr)
-
 !
+!$acc kernels
         do j = 0,m+1
            do i = 0,l+1
               field1(i,j,0)=bufferZOUT(i,j,1)
@@ -85,6 +87,7 @@
               field3(i,j,0)=bufferZOUT(i,j,3)
            enddo
         enddo
+!$acc end kernels
 !        
 !        call mpi_barrier(lbecomm,ierr)
 !
@@ -92,25 +95,29 @@
 !
         tag = 02
 !
+!$acc kernels
         do j = 0,m+1
            do i = 0,l+1
               bufferZIN(i,j,1)=field1(i,j,1)
-              bufferZIN(i,j,2)=field1(i,j,1)
-              bufferZIN(i,j,3)=field1(i,j,1)
+              bufferZIN(i,j,2)=field2(i,j,1)
+              bufferZIN(i,j,3)=field3(i,j,1)
            enddo
         enddo
+!$acc end kernels
 !        
         call mpi_sendrecv(bufferZIN(0,0,1),msgsizeZ,MYMPIREAL,down(2),tag,&
                           bufferZOUT(0,0,1),msgsizeZ,MYMPIREAL,up(2),tag,&
                           lbecomm,status,ierr)
 !
+!$acc kernels
         do j = 0,m+1
            do i = 0,l+1
               field1(i,j,n+1) = bufferZOUT(i,j,1)
-              field1(i,j,n+1) = bufferZOUT(i,j,2)
-              field1(i,j,n+1) = bufferZOUT(i,j,3)
+              field2(i,j,n+1) = bufferZOUT(i,j,2)
+              field3(i,j,n+1) = bufferZOUT(i,j,3)
            enddo
         enddo
+!$acc end kernels
 !
         call time(tcountZ1)
         timeZ = timeZ + (tcountZ1 -tcountZ0)
@@ -123,6 +130,7 @@
 !        
         tag = 01
 !
+!$acc kernels
         do k = 0,n+1
            do j = 0,m+1
               bufferXIN(j,k,1)=field1(l,j,k)
@@ -130,12 +138,14 @@
               bufferXIN(j,k,3)=field3(l,j,k)
            enddo
         enddo
+!$acc end kernels
 !
         call mpi_sendrecv(bufferXIN(0,0,1),msgsizeX,MYMPIREAL,front(2),tag,&
                           bufferXOUT(0,0,1),msgsizeX,MYMPIREAL,rear(2),tag,&
                           lbecomm,status,ierr)
 
 !
+!$acc kernels
         do k = 0,n+1
            do j = 0,m+1
               field1(0,j,k) = bufferXOUT(j,k,1)
@@ -143,6 +153,7 @@
               field3(0,j,k) = bufferXOUT(j,k,3)
            enddo
         enddo
+!$acc end kernels
 !                  
 !        call mpi_barrier(lbecomm,ierr)
 !
@@ -150,6 +161,7 @@
 !        
         tag = 10
 !        
+!$acc kernels
         do k = 0,n+1
            do j = 0,m+1
               bufferXIN(j,k,1)=field1(1,j,k)
@@ -157,6 +169,7 @@
               bufferXIN(j,k,3)=field3(1,j,k)
            enddo
         enddo
+!$acc end kernels
 !
         call mpi_sendrecv(bufferXIN(0,0,1),msgsizeX,MYMPIREAL,rear(2),tag,&
                           bufferXOUT(0,0,1),msgsizeX,MYMPIREAL,front(2),tag,&
@@ -165,6 +178,7 @@
         call time(tcountX1)
         timeX = timeX + (tcountX1 -tcountX0)
 !
+!$acc kernels
         do k = 0,n+1
            do j = 0,m+1
               field1(l+1,j,k) = bufferXOUT(j,k,1)
@@ -172,6 +186,7 @@
               field3(l+1,j,k) = bufferXOUT(j,k,3)
            enddo
         enddo
+!$acc end kernels
 !
         call mpi_barrier(lbecomm,ierr)
 !
@@ -181,6 +196,7 @@
 !        
         tag = 3
 !        
+!$acc kernels
         do k = 0,n+1
            do i = 0,l+1
               bufferYIN(i,k,1)=field1(i,m,k)
@@ -188,11 +204,13 @@
               bufferYIN(i,k,3)=field3(i,m,k)
            enddo
         enddo
+!$acc end kernels
 !
         call mpi_sendrecv(bufferYIN(0,0,1),msgsizeY,MYMPIREAL,right(2),tag,&
                           bufferYOUT(0,0,1),msgsizeY,MYMPIREAL,left(2),tag,&
                           lbecomm,status,ierr)
 !
+!$acc kernels
         do k = 0,n+1
            do i = 0,l+1
               field1(i,0,k)=bufferYOUT(i,k,1)
@@ -200,6 +218,7 @@
               field3(i,0,k)=bufferYOUT(i,k,3)
            enddo
         enddo
+!$acc end kernels
 !
 !        call mpi_barrier(lbecomm,ierr)
 !
@@ -207,6 +226,7 @@
 !        
         tag = 1
 !        
+!$acc kernels
         do k = 0,n+1
            do i = 0,l+1
               bufferYIN(i,k,1)=field1(i,1,k)
@@ -214,11 +234,13 @@
               bufferYIN(i,k,3)=field3(i,1,k)
            enddo
         enddo
+!$acc end kernels
 !
         call mpi_sendrecv(bufferYIN(0,0,1),msgsizeY,MYMPIREAL,left(2),tag,&
                           bufferYOUT(0,0,1),msgsizeY,MYMPIREAL,right(2),tag,&
                           lbecomm,status,ierr)
 !
+!$acc kernels
         do k = 0,n+1
            do i = 0,l+1
               field1(i,m+1,k)=bufferYOUT(i,k,1)
@@ -226,6 +248,7 @@
               field3(i,m+1,k)=bufferYOUT(i,k,3)
            enddo
         enddo
+!$acc end kernels
 !        
         call time(tcountY1)
         timeY = timeY + (tcountY1 -tcountY0)
@@ -237,4 +260,10 @@
         time_mp = time_mp + real(countA1-countA0)/(count_rate)
         time_mp1 = time_mp1 + (tcountA1-tcountA0)
 !
+#ifdef DEBUG_1
+        if(myrank == 0) then
+           write(6,*) "DEBUG1: Exiting from sub. bcond_comm_step3"
+        endif
+#endif
+!        
         end subroutine bcond_comm_step3

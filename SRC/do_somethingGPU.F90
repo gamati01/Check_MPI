@@ -39,7 +39,31 @@
         call SYSTEM_CLOCK(countC0, count_rate, count_max)
         call time(tcountC0)
 !
+#ifdef STEP3
 !$acc kernels
+        do k = 0, n+1
+           do j = 0, m+1
+              do i = 0, l+1
+                 temp1(i,j,k) = field1(i,j,k)
+                 temp2(i,j,k) = field2(i,j,k)
+                 temp3(i,j,k) = field3(i,j,k)
+              end do
+           end do
+        end do
+!$acc end kernels
+!        
+!$acc kernels
+        do k = 1, n
+           do j = 1, m
+              do i = 1, l
+                 field1(i,j,k) = temp1(i-1,j,k)
+                 field2(i,j,k) = temp2(i,j-1,k)
+                 field3(i,j,k) = temp3(i,j,k-1)
+              end do
+           end do
+        end do
+!$acc end kernels
+#else
         do k = n, 1, -1
            do j = m, 1, -1
               do i = l, 1, -1
@@ -49,7 +73,7 @@
               end do
            end do
         end do
-!$acc end kernels
+#endif
 !        
         call mpi_barrier(lbecomm,ierr)
 !

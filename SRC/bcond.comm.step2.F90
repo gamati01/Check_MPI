@@ -95,8 +95,8 @@
         do j = 0,m+1
            do i = 0,l+1
               bufferZIN(i,j,1)=field1(i,j,1)
-              bufferZIN(i,j,2)=field1(i,j,1)
-              bufferZIN(i,j,3)=field1(i,j,1)
+              bufferZIN(i,j,2)=field2(i,j,1)
+              bufferZIN(i,j,3)=field3(i,j,1)
            enddo
         enddo
 !        
@@ -107,8 +107,8 @@
         do j = 0,m+1
            do i = 0,l+1
               field1(i,j,n+1) = bufferZOUT(i,j,1)
-              field1(i,j,n+1) = bufferZOUT(i,j,2)
-              field1(i,j,n+1) = bufferZOUT(i,j,3)
+              field2(i,j,n+1) = bufferZOUT(i,j,2)
+              field3(i,j,n+1) = bufferZOUT(i,j,3)
            enddo
         enddo
 !
@@ -237,4 +237,10 @@
         time_mp = time_mp + real(countA1-countA0)/(count_rate)
         time_mp1 = time_mp1 + (tcountA1-tcountA0)
 !
+#ifdef DEBUG_1
+        if(myrank == 0) then
+           write(6,*) "DEBUG1: Exiting from sub. bcond_comm_step2"
+        endif
+#endif
+!        
         end subroutine bcond_comm_step2

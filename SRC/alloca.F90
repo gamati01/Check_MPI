@@ -30,6 +30,10 @@ subroutine alloca()
       allocate(field2(0:l+1,0:m+1,0:n+1))
       allocate(field3(0:l+1,0:m+1,0:n+1))
 !
+      allocate(temp1(0:l+1,0:m+1,0:n+1))
+      allocate(temp2(0:l+1,0:m+1,0:n+1))
+      allocate(temp3(0:l+1,0:m+1,0:n+1))
+!
 #ifdef DEBUG_1
         if(myrank == 0) then
            write(6,*) "DEBUG1: Exiting from sub. alloca"

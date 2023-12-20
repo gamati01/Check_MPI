@@ -43,7 +43,6 @@
 #
 #
 #----------------------------------------------
-VER = mpi
 #
 DATE = $(shell date +%d%m%y)
 #
@@ -75,16 +74,20 @@ endif
 # version section
 #----------------------------------------------
 #
+VER = step0
 ifdef STEP1
  FIX=-DSTEP1
+ VER=step1
 endif
 #
 ifdef STEP2
  FIX=-DSTEP2
+ VER=step2
 endif
 #
 ifdef STEP3
  FIX=-DSTEP3 -acc -Minfo=acc -DOPENACC
+ VER=step3
 endif
 #
 #----------------------------------------------
@@ -119,19 +122,19 @@ all: $(MOD) $(OBJ)
 #----------------------------------------------
 
 %.o %.mod: $(INC) %.f90
-	$(FC) $(FOPT) $(DBL) $(PREPROC) $(FIX) $(COMM1) $(TCASE) $(TRY) -c $<
+	$(FC) $(FOPT) $(DBL) $(PREPROC) $(FIX) $(TRY) -c $<
 
 %.o: $(INC) %.F90
-	$(FC) $(FOPT) $(DBL) $(PREPROC) $(FIX) $(COMM1) $(TCASE) $(TRY) -c $<
+	$(FC) $(FOPT) $(DBL) $(PREPROC) $(FIX) $(TRY) -c $<
 
 %.o: $(INC) %.f
-	$(FC) $(FOPT) $(DBL) $(PREPROC) $(FIX) $(COMM1) $(TCASE) -$(TRY) c $<
+	$(FC) $(FOPT) $(DBL) $(PREPROC) $(FIX) $(TRY) c $<
 
 %.o: $(INC) %.c
 	$(CC) $(COPT)                          -c $<
 
 %.p: %.f90
-	$(FC) $(FOPT) $(DBL) $(PREPROC) $(FIX) $(QQQ) $(TCASE) $(TRY) $<
+	$(FC) $(FOPT) $(DBL) $(PREPROC) $(FIX) $(TRY) $<
 
 #----------------------------------------------
 clean:
@@ -158,23 +161,9 @@ tar:
 	rm -rf ../RUN/*.vtk
 	rm -rf ../RUN/*.bin
 	rm -rf ../RUN/*.h5
-#	cd ../TEST/
-#	./clean.x
-#	cd -
 	tar -cvf ../../archive.mpi_gpuaware.$(DATE).tar ../../MPI_GPUAWARE/*
 #----------------------------------------------
 help:
-	@echo "different target available"
 	@echo "mpi (default)"
-	@echo "serial (raw I/O)"
-	@echo "hdf5  (paralle+hdf5)"
-	@echo "openmp (serial+openmp)"
-	@echo "hybrid (mpi+openmp)"
-	@echo "openacc (serial+openac)"
-	@echo "mic (mpi for intel MIC)"
-	@echo "couette"
-	@echo "try (regularized, not working"
-	@echo "cudaf"
-	@echo "mb (multiblock, not working)"
 #----------------------------------------------
 

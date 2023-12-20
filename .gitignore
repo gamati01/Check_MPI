@@ -13,3 +13,6 @@
 #dat files
 *.dat
 
+#exe files
+*.x
+

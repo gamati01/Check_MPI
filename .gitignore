@@ -1,0 +1,9 @@
+# Object files
+*.o
+
+# VTK output file 
+*.vtk
+
+# mod files
+*.mod
+

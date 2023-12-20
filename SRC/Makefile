@@ -52,6 +52,10 @@ DATE = $(shell date +%d%m%y)
 FINE = "********** Fine Compilazione *********"
 #----------------------------------------------
 #
+#----------------------------------------------
+# compiler section
+#----------------------------------------------
+# default (NVIDIAcompiler)
  CC = mpicc
  FC = mpifort
  FIX = -DPGI
@@ -67,7 +71,25 @@ ifdef GNU
  OPT =  -ftree-vectorize -Ofast
 endif
 #
-
+#----------------------------------------------
+# version section
+#----------------------------------------------
+#
+ifdef STEP1
+ FIX=-DSTEP1
+endif
+#
+ifdef STEP2
+ FIX=-DSTEP2
+endif
+#
+ifdef STEP3
+ FIX=-DSTEP3 -acc -Minfo=acc
+endif
+#
+#----------------------------------------------
+# Makefile section
+#----------------------------------------------
 MOD  = get_mem_mod.o \
        precision.o \
 
@@ -83,6 +105,7 @@ OBJ  = storage.o \
        bcond.comm.step0.o \
        bcond.comm.step1.o \
        bcond.comm.step2.o \
+       bcond.comm.step3.o \
        setup_MPI.o \
        prof_i.o \
        outdat.o \

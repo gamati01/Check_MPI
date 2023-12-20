@@ -39,6 +39,7 @@
         call SYSTEM_CLOCK(countC0, count_rate, count_max)
         call time(tcountC0)
 !
+!$acc kernels
         do k = n, 1, -1
            do j = m, 1, -1
               do i = l, 1, -1
@@ -48,6 +49,7 @@
               end do
            end do
         end do
+!$acc end kernels
 !        
         call mpi_barrier(lbecomm,ierr)
 !

@@ -35,13 +35,15 @@
         endif
 #endif
 !
-! step 0
-! simple sendrecv with datatype.
-! 1 call for each field        
-#ifdef STEP2
+
+#ifdef STEP3
+! as STEP3 witth cpu offloading wirh openacc
+        call bcond_comm_step3
+#elif STEP2
+! no more MPI datatype and few senderecv
         call bcond_comm_step2
 #elif STEP1
-! not using MPI datatype
+! not using MPI datatype in x decomposition
         call bcond_comm_step1
 #else
 ! default (naive)

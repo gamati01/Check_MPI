@@ -26,6 +26,11 @@
 !
       use mpi
 !
+!
+#ifdef OPENACC
+      use openacc
+#endif
+
       implicit none
 !
       integer:: i, uni

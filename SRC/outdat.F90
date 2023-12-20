@@ -15,7 +15,7 @@
 !     TODO
 !       
 !     NOTES
-!       integer variables used: itfin,itstart,ivtim,isignal,itsave,icheck
+!       integer variables used: itfin
 !
 !     *****
 ! =====================================================================
@@ -26,17 +26,20 @@
       implicit none
 !
       INTEGER     :: itfin
-      character*5 :: comms
+      character*15 :: comms
 !
       if(myrank==0) then 
 !
-#ifdef STEP2
+#ifdef STEP3
+         comms="STEP3-OpenACC"
+#elif STEP2
          comms="STEP2"
 #elif STEP1
          comms="STEP1"
 #else
          comms="STEP0"
 #endif
+!
          write(6,*) ' '
          write(6,*) '*********** size of the lattice **************'
          write(6,*) 'lx (width x) =',lx

@@ -84,7 +84,7 @@ ifdef STEP2
 endif
 #
 ifdef STEP3
- FIX=-DSTEP3 -acc -Minfo=acc
+ FIX=-DSTEP3 -acc -Minfo=acc -DOPENACC
 endif
 #
 #----------------------------------------------

@@ -44,7 +44,7 @@
         integer:: xyplane, xzplane, yzplane, myxrank, yzcomm
         integer:: prgrid(mpid)
         integer:: mpicoords(mpid)
-        integer:: mydev
+        integer:: mydev, ndev              ! openacc variables
 !
         integer(kind=MPI_OFFSET_KIND):: file_offset
 !
@@ -55,5 +55,5 @@
         real(mystor), dimension(:,:,:), contiguous, pointer :: field1
         real(mystor), dimension(:,:,:), contiguous, pointer :: field2
         real(mystor), dimension(:,:,:), contiguous, pointer :: field3
-
+!
         end module  storage

@@ -35,8 +35,11 @@
 #endif
 !
 
-#ifdef STEP3
-! as STEP3 witth cpu offloading wirh openacc
+#ifdef STEP4
+! as STEP3 with cudaware sendrecv
+        call bcond_comm_step4
+#elif STEP3
+! as STEP2 with gpu offloading wirh openacc
         call bcond_comm_step3
 #elif STEP2
 ! no more MPI datatype and few senderecv

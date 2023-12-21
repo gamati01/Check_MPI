@@ -90,6 +90,11 @@ ifdef STEP3
  VER=step3
 endif
 #
+ifdef STEP4
+ FIX=-DSTEP4 -acc -Minfo=acc -DOPENACC
+ VER=step4
+endif
+#
 #----------------------------------------------
 # Makefile section
 #----------------------------------------------
@@ -109,6 +114,7 @@ OBJ  = storage.o \
        bcond.comm.step1.o \
        bcond.comm.step2.o \
        bcond.comm.step3.o \
+       bcond.comm.step4.o \
        setup_MPI.o \
        prof_i.o \
        prof_j.o \

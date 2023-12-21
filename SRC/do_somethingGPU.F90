@@ -39,7 +39,7 @@
         call SYSTEM_CLOCK(countC0, count_rate, count_max)
         call time(tcountC0)
 !
-#ifdef STEP3
+#ifdef STEP4
 !$acc kernels
         do k = 0, n+1
            do j = 0, m+1

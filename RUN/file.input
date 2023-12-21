@@ -1,9 +1,10 @@
 &parameters
-lx = 150
-ly = 150
-lz = 150
-proc_x = 3
-proc_y = 3
-proc_z = 3
-itfin=5000    /
+lx = 400
+ly = 400
+lz = 400
+proc_x = 2
+proc_y = 1
+proc_z = 2
+itfin=1000    
+icheck=110    /
 

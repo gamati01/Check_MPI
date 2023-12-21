@@ -44,6 +44,14 @@
       real(mykind):: knorm
 !
       knorm = 1.0/1024.0
+      time_loop = 0.0
+      time_coll = 0.0
+      time_mp = 0.0
+      time_dg = 0.0
+      time_loop1 = 0.0
+      time_coll1 = 0.0
+      time_mp1 = 0.0
+      time_dg1 = 0.0
 !
       call mpi_init(ierr)
       call MPI_comm_size(MPI_COMM_WORLD, nprocs, ierr)

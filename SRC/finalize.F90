@@ -53,8 +53,8 @@
       write(38,1202) time_coll/time_loop, time_coll1/time_loop1
       write(38,1203) time_dg/time_loop,   time_dg1/time_loop1
       write(38,1215) time_mp/time_loop,   time_mp1/time_loop1
-      write(38,1216) time_loop-time_coll-time_dg-time_mp,               &
-     &               time_loop1-time_coll1-time_dg1-time_mp1           
+      write(38,1216) (time_loop -time_coll -time_dg- time_mp)/time_loop,&
+     &               (time_loop1-time_coll1-time_dg1-time_mp1)/time_loop1 
       write(38,9999)
       write(38,*) "# Z-MPI time, BW (MB/s) -->", timeZ,                 &
                                (m+2)*(l+2)*(itfin)*knorm/timeZ

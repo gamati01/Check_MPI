@@ -64,15 +64,17 @@
         end do
 !$acc end kernels
 #else
+!$acc kernels
         do k = n, 1, -1
            do j = m, 1, -1
               do i = l, 1, -1
-                 field1(i,j,k) = field1(i-1,j,k)! +field1(i+0,j,k)-0.5*field1(i+1,j,k)
-                 field2(i,j,k) = field2(i,j-1,k)! +field2(i,j+0,k)-0.5*field2(i,j+1,k)
-                 field3(i,j,k) = field3(i,j,k-1)! +field3(i,j,k+0)-0.5*field3(i,j,k+1)
+                 field1(i,j,k) = field1(i-1,j,k)
+                 field2(i,j,k) = field2(i,j-1,k)
+                 field3(i,j,k) = field3(i,j,k-1)
               end do
            end do
         end do
+!$acc end kernels
 #endif
 !        
         call mpi_barrier(lbecomm,ierr)

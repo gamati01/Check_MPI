@@ -65,9 +65,9 @@ FINE = "********** Fine Compilazione *********"
 ifdef GNU
  CC = mpicc
  FC = mpif90
- FOPT =  -ftree-vectorize -Ofast
- COPT =  -ftree-vectorize -Ofast
- OPT =  -ftree-vectorize -Ofast
+ FOPT = -ftree-vectorize -Ofast
+ COPT = -ftree-vectorize -Ofast
+ OPT  = -ftree-vectorize -Ofast
 endif
 #
 #----------------------------------------------

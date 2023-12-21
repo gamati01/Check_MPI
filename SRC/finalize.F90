@@ -53,14 +53,16 @@
       write(38,1202) time_coll/time_loop, time_coll1/time_loop1
       write(38,1203) time_dg/time_loop,   time_dg1/time_loop1
       write(38,1215) time_mp/time_loop,   time_mp1/time_loop1
+      write(38,1216) time_loop-time_coll-time_dg-time_mp,               &
+     &               time_loop1-time_coll1-time_dg1-time_mp1           
       write(38,9999)
-      write(38,*) "# Z-MPI time, BW (MB/s) -->", timeZ,   &
+      write(38,*) "# Z-MPI time, BW (MB/s) -->", timeZ,                 &
                                (m+2)*(l+2)*(itfin)*knorm/timeZ
-      write(38,*) "# Y-MPI time, BW (MB/s) -->", timeY,   &
+      write(38,*) "# Y-MPI time, BW (MB/s) -->", timeY,                 &
                                (n+2)*(l+2)*(itfin)*knorm/timeY
-      write(38,*) "# X-MPI time, BW (MB/s) -->", timeX,   &
+      write(38,*) "# X-MPI time, BW (MB/s) -->", timeX,                 &
                                (n+2)*(m+2)*(itfin)*knorm/timeX
-      write(38,*) "#", myrank, ":Memory (stop) --->", mem_stop
+!      write(38,*) "#", myrank, ":Memory (stop) --->", mem_stop
 !
 ! free derived datatype
       call MPI_type_free(xyplane,ierr)
@@ -85,7 +87,8 @@
 1202  format(" # Ratio Coll ",2(f7.3,1x))
 1203  format(" # Ratio Dg.  ",2(f7.3,1x))
 1215  format(" # Ratio MPI  ",2(f7.3,1x))
-1110  format(" # Memory (start,stop)",2(f14.6,1x), "MB")  ! double precision only
+1216  format(" # Check      ",2(f7.3,1x))
+!1110  format(" # Memory (start,stop)",2(f14.6,1x), "MB")  ! double precision only
 !
 #ifdef DEBUG_1
       if(myrank == 0) then

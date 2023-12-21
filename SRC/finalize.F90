@@ -57,11 +57,11 @@
      &               (time_loop1-time_coll1-time_dg1-time_mp1)/time_loop1 
       write(38,9999)
       write(38,*) "# Z-MPI time, BW (MB/s) -->", timeZ,                 &
-                               (m+2)*(l+2)*(itfin)*knorm/timeZ
+                               float(m+2)*float(l+2)*float(itfin)*knorm/timeZ
       write(38,*) "# Y-MPI time, BW (MB/s) -->", timeY,                 &
-                               (n+2)*(l+2)*(itfin)*knorm/timeY
+                               float(n+2)*float(l+2)*float(itfin)*knorm/timeY
       write(38,*) "# X-MPI time, BW (MB/s) -->", timeX,                 &
-                               (n+2)*(m+2)*(itfin)*knorm/timeX
+                               float(n+2)*float(m+2)*float(itfin)*knorm/timeX
 !      write(38,*) "#", myrank, ":Memory (stop) --->", mem_stop
 !
 ! free derived datatype

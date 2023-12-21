@@ -39,19 +39,17 @@
 !
       implicit none
 !
-      INTEGER:: itfin, ivtim, ierr
-      INTEGER:: itime, itsave, icheck, itrestart, init_v
-      INTEGER:: isignal
-      integer:: tstep, tt
+      INTEGER:: itfin, ierr
+      INTEGER:: itime, icheck
 !
 ! reading run input
-      call input(itfin)
+      call input(itfin,icheck)
 !      
 ! setup mpi stuff
       call setup_MPI
 !
 ! some info
-      call outdat(itfin)
+      call outdat(itfin,icheck)
 !
 ! fields allocation
       call alloca
@@ -71,7 +69,7 @@
          call do_somethingGPU    ! do something on GP
 !
 ! diagnostic         
-         if(mod(itime,25)==1) then
+         if(mod(itime,icheck)==0) then
             if(myrank==0) then
                write(6,*) "Iteration =", itime, "/", itfin
 !               write(6,*) "VALIDATION (x): ", field1(l/2,m/2,n/2)

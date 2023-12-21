@@ -20,12 +20,12 @@
 !     *****
 ! =====================================================================
 !
-      subroutine outdat(itfin)
+      subroutine outdat(itfin,icheck)
 !
       use storage
       implicit none
 !
-      INTEGER     :: itfin
+      INTEGER     :: itfin,icheck
       character*15 :: comms
 !
       if(myrank==0) then 
@@ -55,6 +55,7 @@
          write(6,*) 'n (height)   =',n
          write(6,*) '*********** run data ************************'
          write(6,*) 'itfin        =',itfin
+         write(6,*) 'icheck       =',icheck
          write(6,*) 'precision    =',MYMPIREAL
          write(6,*) '*********** implementation ******************'
          write(6,*) 'COMMS        =', comms

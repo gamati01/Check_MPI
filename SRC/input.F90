@@ -14,12 +14,7 @@
 !     OUTPUT
 !       size     --> size_x, size_y
 !       itfin    --> end of the run
-!       ivtim    --> interval between two different visualization
-!       isignal  --> interval between two timings 
-!       itsave   --> time of saving
 !       icheck   --> interval between two different diagnostic
-!       irestart --> restart from file (1=yes,other=no)
-!       init_v   --> initial velocity condition (see subroutine init)
 !     TODO
 !	
 !     NOTES
@@ -30,22 +25,28 @@
 !     *****
 ! =====================================================================
 !
-      subroutine input (itfin)
+      subroutine input (itfin,icheck)
 !
       use storage
       use timing
 ! 
       implicit none
 !
-      integer:: itfin,ivtim,isignal,itsave,icheck
-      integer:: irestart,init_v, tstep
+      integer:: itfin,icheck
+      integer:: irestart
 !
-      namelist /parameters/ itfin, lx, ly, lz, proc_x, proc_y, proc_z
+      namelist /parameters/ itfin, icheck,  & 
+     &                      lx, ly, lz,     &
+     &                      proc_x, proc_y, proc_z
 !
+!     default
+
+      icheck = 100
+!      
       open(15,FILE='file.input',STATUS='old')
       read(15,parameters)
       close(15)
-
+!
       l = lx/proc_x
       m = ly/proc_y
       n = lz/proc_z

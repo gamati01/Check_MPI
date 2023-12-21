@@ -46,11 +46,13 @@
       write(38,*)  "# Time for section "
       write(38,1101) time_loop, time_loop1
       write(38,1102) time_coll, time_coll1
+      write(38,1103) time_dg, time_dg1
       write(38,1115) time_mp, time_mp1
       write(38,9999)
       write(38,*)  "# Ratio "
-      write(38,1201) time_mp/time_loop  , time_mp1/time_loop1
-      write(38,1204) time_coll/time_loop, time_coll1/time_loop1
+      write(38,1202) time_coll/time_loop, time_coll1/time_loop1
+      write(38,1203) time_dg/time_loop,   time_dg1/time_loop1
+      write(38,1215) time_mp/time_loop,   time_mp1/time_loop1
       write(38,9999)
       write(38,*) "# Z-MPI time, BW (MB/s) -->", timeZ,   &
                                (m+2)*(l+2)*(itfin)*knorm/timeZ
@@ -78,9 +80,11 @@
 1100  format(" # init   time",1(e14.6,1x))
 1101  format(" # loop   time",2(e14.6,1x))
 1102  format(" # comp.  time",2(e14.6,1x))
+1103  format(" # diag.  time",2(e14.6,1x))
 1115  format(" # MPI    time",2(e14.6,1x))
-1201  format(" # Ratio MPI  ",2(f7.3,1x))
-1204  format(" # Ratio Coll ",2(f7.3,1x))
+1202  format(" # Ratio Coll ",2(f7.3,1x))
+1203  format(" # Ratio Dg.  ",2(f7.3,1x))
+1215  format(" # Ratio MPI  ",2(f7.3,1x))
 1110  format(" # Memory (start,stop)",2(f14.6,1x), "MB")  ! double precision only
 !
 #ifdef DEBUG_1

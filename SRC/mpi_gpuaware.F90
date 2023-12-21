@@ -70,6 +70,11 @@
 !
 ! diagnostic         
          if(mod(itime,icheck)==0) then
+!                 
+! start timing       
+      call SYSTEM_CLOCK(countD0, count_rate, count_max)
+      call time(tcountD0)
+!      
             if(myrank==0) then
                write(6,*) "Iteration =", itime, "/", itfin
 !               write(6,*) "VALIDATION (x): ", field1(l/2,m/2,n/2)
@@ -79,6 +84,14 @@
             call prof_i(itime,m/2,n/2)
             call prof_j(itime,l/2,n/2)
             call prof_k(itime,l/2,m/2)
+!           
+            call mpi_barrier(MPI_COMM_WORLD,ierr)
+! 
+! stop timing      
+            call SYSTEM_CLOCK(countD1, count_rate, count_max)
+            call time(tcountD1)
+            time_dg  = real(countD1-countD0)/(count_rate)
+            time_dg1 = tcountD1-tcountD0
          endif
 !
       enddo

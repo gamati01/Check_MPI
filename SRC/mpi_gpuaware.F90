@@ -90,7 +90,7 @@
 ! stop timing      
             call SYSTEM_CLOCK(countD1, count_rate, count_max)
             call time(tcountD1)
-            time_dg  = time_dg + real(countD1-countD0)/(count_rate)
+            time_dg  = time_dg  + real(countD1-countD0)/(count_rate)
             time_dg1 = time_dg1 + tcountD1-tcountD0
          endif
 !

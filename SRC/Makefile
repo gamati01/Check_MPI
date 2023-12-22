@@ -86,12 +86,12 @@ ifdef STEP2
 endif
 #
 ifdef STEP3
- FIX=-DSTEP3 -acc -Minfo=acc -DOPENACC
+ FIX=-DSTEP3 -acc -Minfo=acc -DOPENACC -DFAST
  VER=step3
 endif
 #
 ifdef STEP4
- FIX=-DSTEP4 -acc -Minfo=acc -DOPENACC
+ FIX=-DSTEP4 -acc -Minfo=acc -DOPENACC -DFAST
  VER=step4
 endif
 #

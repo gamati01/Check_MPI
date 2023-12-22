@@ -35,8 +35,11 @@
 #endif
 !
 
-#ifdef STEP5
-! as STEP4 with non blocking comms
+#ifdef STEP6
+! as STEP5 with non blocking comms
+        call bcond_comm_step6
+#elif STEP5
+! as STEP4 with non blocking comms along x direction
         call bcond_comm_step5
 #elif STEP4
 ! as STEP3 with cudaware sendrecv

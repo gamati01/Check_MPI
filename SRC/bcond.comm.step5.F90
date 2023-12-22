@@ -203,23 +203,19 @@
 !$acc kernels
            do k = 0,n+1
               do j = 0,m+1
+! x+ direction              
                  bufferXINP(j,k,1)=field1(l,j,k)
                  bufferXINP(j,k,2)=field2(l,j,k)
                  bufferXINP(j,k,3)=field3(l,j,k)
-              enddo
-           enddo
-!$acc end kernels
 !
-!$acc kernels
-           do k = 0,n+1
-              do j = 0,m+1
+! x- direction              
                  bufferXINM(j,k,1)=field1(1,j,k)
                  bufferXINM(j,k,2)=field2(1,j,k)
                  bufferXINM(j,k,3)=field3(1,j,k)
               enddo
            enddo
 !$acc end kernels
-
+!
 ! Second send pack data.....                
            tag = 11
 !$acc host_data use_device(bufferXINP)
@@ -250,16 +246,12 @@
 !$acc kernels
            do k = 0,n+1
               do j = 0,m+1
+! x- direction                 
                  field1(0,j,k) = bufferXOUTP(j,k,1)
                  field2(0,j,k) = bufferXOUTP(j,k,2)
                  field3(0,j,k) = bufferXOUTP(j,k,3)
-              enddo
-           enddo
-!$acc end kernels
 !
-!$acc kernels
-           do k = 0,n+1
-              do j = 0,m+1
+! x- direction                 
                  field1(l+1,j,k) = bufferXOUTM(j,k,1)
                  field2(l+1,j,k) = bufferXOUTM(j,k,2)
                  field3(l+1,j,k) = bufferXOUTM(j,k,3)

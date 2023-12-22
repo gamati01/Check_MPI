@@ -30,7 +30,9 @@
 !
       if(myrank==0) then 
 !
-#ifdef STEP4
+#ifdef STEP5
+         comms="STEP5-noblock"
+#elif STEP4
          comms="STEP4-CudaAware"
 #elif STEP3
          comms="STEP3-OpenACC"

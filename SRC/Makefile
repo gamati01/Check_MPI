@@ -131,6 +131,7 @@ OBJ  = storage.o \
        bcond.comm.step3.o \
        bcond.comm.step4.o \
        bcond.comm.step5.o \
+       bcond.comm.step6.o \
        bcond.comm.step7.o \
        setup_MPI.o \
        prof_i.o \

@@ -120,10 +120,12 @@
 !$acc kernels
         do j = 0,m+1
            do i = 0,l+1
+! z+ direction              
               bufferZINP(i,j,1)=field1(i,j,n)
               bufferZINP(i,j,2)=field2(i,j,n)
               bufferZINP(i,j,3)=field3(i,j,n)
 !
+! z- direction              
               bufferZINM(i,j,1)=field1(i,j,1)
               bufferZINM(i,j,2)=field2(i,j,1)
               bufferZINM(i,j,3)=field3(i,j,1)
@@ -156,10 +158,12 @@
 !$acc kernels
         do k = 0,n+1
            do i = 0,l+1
+! y+ direction              
               bufferYINP(i,k,1)=field1(i,m,k)
               bufferYINP(i,k,2)=field2(i,m,k)
               bufferYINP(i,k,3)=field3(i,m,k)
 !
+! y- direction              
               bufferYINM(i,k,1)=field1(i,1,k)
               bufferYINM(i,k,2)=field2(i,1,k)
               bufferYINM(i,k,3)=field3(i,1,k)
@@ -244,20 +248,26 @@
 !$acc end host_data
 !
 !Fourth unpack data
+        call time(tcountZ0)
 !$acc kernels
         do j = 0,m+1
            do i = 0,l+1
+! z+ direction
               field1(i,j,0)=bufferZOUTP(i,j,1)
               field2(i,j,0)=bufferZOUTP(i,j,2)
               field3(i,j,0)=bufferZOUTP(i,j,3)
 !
+! z- direction
               field1(i,j,n+1) = bufferZOUTM(i,j,1)
               field2(i,j,n+1) = bufferZOUTM(i,j,2)
               field3(i,j,n+1) = bufferZOUTM(i,j,3)
            enddo
         enddo
 !$acc end kernels
+        call time(tcountZ1)
+        timeZ = timeZ + (tcountZ1 -tcountZ0)
 !
+        call time(tcountX0)
 !$acc kernels
         do k = 0,n+1
            do j = 0,m+1
@@ -273,20 +283,27 @@
            enddo
         enddo
 !$acc end kernels
+        call time(tcountX1)
+        timeX = timeX + (tcountX1 -tcountX0)
 !           
+        call time(tcountY0)
 !$acc kernels
            do k = 0,n+1
               do i = 0,l+1
+! y+ direction
                  field1(i,0,k)=bufferYOUTP(i,k,1)
                  field2(i,0,k)=bufferYOUTP(i,k,2)
                  field3(i,0,k)=bufferYOUTP(i,k,3)
 !                 
+! y- direction
                  field1(i,m+1,k)=bufferYOUTM(i,k,1)
                  field2(i,m+1,k)=bufferYOUTM(i,k,2)
                  field3(i,m+1,k)=bufferYOUTM(i,k,3)
               enddo
            enddo
 !$acc end kernels
+        call time(tcountY1)
+        timeY = timeY + (tcountY1 -tcountY0)
 !
 ! Fifth  wait...           
         call mpi_wait(reqs_up(1), status_up, ierr)

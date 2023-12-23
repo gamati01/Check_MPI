@@ -30,7 +30,9 @@
 !
       if(myrank==0) then 
 !
-#ifdef STEP6
+#ifdef STEP7
+         comms="STEP7-noblock/2"
+#elif STEP6
          comms="STEP6-noblock"
 #elif STEP5
          comms="STEP5-noblock(x)"

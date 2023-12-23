@@ -35,7 +35,10 @@
 #endif
 !
 
-#ifdef STEP6
+#ifdef STEP7
+! as STEP6 with "reorganization of calls"
+        call bcond_comm_step7
+#elif STEP6
 ! as STEP5 with non blocking comms
         call bcond_comm_step6
 #elif STEP5

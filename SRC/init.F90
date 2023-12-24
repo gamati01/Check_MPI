@@ -15,22 +15,18 @@
 !     TODO
 !
 !     NOTES
-!       integer variables used: i,k,opt
-!       real variables used: x,z,xj,zj,vsq,rho,pi
-!                            x02,x04,x05,x06,x11,x13,x14,x15,x19
-!                            kappa,delta
-!       u = velocity along x direction (i, streamwise)
-!       v = velocity along z direction (k, normal-to-wall)
-!
+!       integer variables used: i,j,k
+!                           
 !     *****
 !=======================================================================
 !
-        subroutine init
+        subroutine init(border)
 !
         use storage
         implicit none
 !
         integer i,j,k,ierr
+        integer border
 !
         real(mykind) ::  x,y,z,xj,yj,zj,pi
 !
@@ -51,7 +47,30 @@
            end do
         end do
 !        
+#ifdef STEP8
+! mask=1 ---> bulk        
+! mask=0 ---> border        
 !        
+! first set border everywhere        
+        do k = 0, n+1
+           do j = 0, m+1
+              do i = 0, l+1
+                 mask(i,j,k) = 0
+              end do
+           end do
+        end do
+!        
+! first set border everywhere
+        do k = 0+border, n+1-border
+           do j = 0+border, m+1-border
+              do i = 0+border, l+1-border
+                 mask(i,j,k) = 1
+              end do
+           end do
+        end do
+#endif
+!        
+! check        
         if(myrank==0) then
            do i = 0, l+1
               write(66,*) i, field1(i,m/2,n/2)

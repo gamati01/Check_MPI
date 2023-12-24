@@ -34,6 +34,10 @@ subroutine alloca()
       allocate(temp2(0:l+1,0:m+1,0:n+1))
       allocate(temp3(0:l+1,0:m+1,0:n+1))
 !
+#ifdef STEP8
+      allocate(mask(0:l+1,0:m+1,0:n+1))
+#endif
+!
 #ifdef DEBUG_1
         if(myrank == 0) then
            write(6,*) "DEBUG1: Exiting from sub. alloca"

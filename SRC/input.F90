@@ -18,30 +18,30 @@
 !     TODO
 !	
 !     NOTES
-!       integer variables used: itfin,ivtim,isignal,itsave,icheck,irestart
-!                               init_v, tstep
-!       real variables defined: dt (not used)
+!       integer variables used: itfin,ivtim,icheck
 !
 !     *****
 ! =====================================================================
 !
-      subroutine input (itfin,icheck)
+      subroutine input(itfin,icheck,border)
 !
       use storage
       use timing
 ! 
       implicit none
 !
-      integer:: itfin,icheck
+      integer:: itfin,icheck,border
       integer:: irestart
 !
       namelist /parameters/ itfin, icheck,  & 
      &                      lx, ly, lz,     &
+     &                      border          &
      &                      proc_x, proc_y, proc_z
 !
 !     default
 
       icheck = 100
+      border = 10
 !      
       open(15,FILE='file.input',STATUS='old')
       read(15,parameters)

@@ -35,7 +35,10 @@
 #endif
 !
 
-#ifdef STEP7
+#ifdef STEP8
+! as STEP7 with "Overlap comms-computation"
+        call bcond_comm_step8
+#elif STEP7
 ! as STEP6 with "reorganization of calls"
         call bcond_comm_step7
 #elif STEP6

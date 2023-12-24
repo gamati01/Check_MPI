@@ -1,10 +1,11 @@
 &parameters
-lx = 400
-ly = 400
-lz = 400
+lx = 600
+ly = 600
+lz = 600
 proc_x = 2
 proc_y = 2
-proc_z = 1
-itfin=5000    
-icheck=511    /
+proc_z = 2
+itfin=15000    
+border=15    
+icheck=1511    /
 

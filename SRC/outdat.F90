@@ -20,17 +20,19 @@
 !     *****
 ! =====================================================================
 !
-      subroutine outdat(itfin,icheck)
+      subroutine outdat(itfin,icheck,border)
 !
       use storage
       implicit none
 !
-      INTEGER     :: itfin,icheck
+      INTEGER     :: itfin,icheck,border
       character*15 :: comms
 !
       if(myrank==0) then 
 !
-#ifdef STEP7
+#ifdef STEP8
+         comms="STEP8-overlap"
+#elif STEP7
          comms="STEP7-noblock/2"
 #elif STEP6
          comms="STEP6-noblock"
@@ -67,6 +69,7 @@
          write(6,*) 'precision    =',MYMPIREAL
          write(6,*) '*********** implementation ******************'
          write(6,*) 'COMMS        =', comms
+         write(6,*) 'border       =', border
          write(6,*) '*********************************************'
       endif
 

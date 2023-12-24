@@ -40,33 +40,48 @@
       implicit none
 !
       INTEGER:: itfin, ierr
-      INTEGER:: itime, icheck
+      INTEGER:: itime, icheck,border
+      INTEGER:: opt
+!
+! border (only STEP8)      
+      opt = 1      
 !
 ! reading run input
-      call input(itfin,icheck)
+      call input(itfin,icheck,border)
 !      
 ! setup mpi stuff
       call setup_MPI
 !
 ! some info
-      call outdat(itfin,icheck)
+      call outdat(itfin,icheck,border)
 !
 ! fields allocation
       call alloca
 !      
 ! initialize the fields...
-      call init
+      call init(border)
 !
 ! start timing       
-      call SYSTEM_CLOCK(countE0, count_rate, count_max)
+      call SYSTEM_CLOCK(countE0,count_rate,count_max)
       call time(tcountE0)
 !
+#ifdef STEP8
+!$acc data copy(field1,field2,field3,temp1,temp2,temp3,mask)
+#else
 !$acc data copy(field1,field2,field3,temp1,temp2,temp3)
+#endif
 !
 ! main loop starts here.....
       do itime=1,itfin
          call boundaries         ! MPI call 
-         call do_somethingGPU    ! do something on GP
+
+#ifdef STEP8         
+! do something on GPU (only borders)
+         call do_somethingGPU_masked(opt) 
+#else
+! do something on GPU (all)
+         call do_somethingGPU   
+#endif         
 !
 ! diagnostic         
          if(mod(itime,icheck)==0) then

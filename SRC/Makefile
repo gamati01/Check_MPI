@@ -110,6 +110,13 @@ ifdef STEP7
  VER=step7
 endif
 #
+ifdef STEP8
+ FIX=-DSTEP8 -acc -Minfo=acc -DOPENACC -DFAST
+ OBJ1= bcond.comm.step8.o \
+       do_somethingGPU_masked.o 
+ VER=step8
+endif
+#
 #----------------------------------------------
 # Makefile section
 #----------------------------------------------
@@ -141,8 +148,8 @@ OBJ  = storage.o \
 
 #----------------------------------------------
 #
-all: $(MOD) $(OBJ) 
-	$(FC) $(OPT) $(OBJ) $(FIX) $(TRY) $(LIB) -o ../RUN/mpi_gpuaware.$(VER).x 
+all: $(MOD) $(OBJ) $(OBJ1)
+	$(FC) $(OPT) $(OBJ) $(OBJ1) $(FIX) $(TRY) $(LIB) -o ../RUN/mpi_gpuaware.$(VER).x 
 	@echo $(FINE)
 
 #----------------------------------------------

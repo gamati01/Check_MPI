@@ -44,7 +44,7 @@
       INTEGER:: opt
 !
 ! border (only STEP8)      
-      opt = 1      
+      opt = 0      
 !
 ! reading run input
       call input(itfin,icheck,border)

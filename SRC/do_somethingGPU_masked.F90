@@ -70,7 +70,7 @@
         end do
 !$acc end kernels
 !        
-        call mpi_barrier(lbecomm,ierr)
+!        call mpi_barrier(lbecomm,ierr)
 !
         ! stop timing
         call time(tcountC1)

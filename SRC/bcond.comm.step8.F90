@@ -255,9 +255,9 @@
 !                  
 ! overlap region
 ! run over bulk region
-        opt = 0
+        opt = 1
         call do_somethingGPU_masked(opt)
-        call mpi_barrier(lbecomm,ierr)
+!        call mpi_barrier(lbecomm,ierr)
 !        
 !----------------------------------------------------------------
 ! forth  wait...           
@@ -268,7 +268,7 @@
         call MPI_Waitall(2,reqs_left ,MPI_STATUSES_IGNORE, ierr)
         call MPI_Waitall(2,reqs_right,MPI_STATUSES_IGNORE, ierr)
 !
-        call mpi_barrier(lbecomm,ierr)
+!        call mpi_barrier(lbecomm,ierr)
 !
 !----------------------------------------------------------------
 !fifth unpack data
@@ -328,8 +328,6 @@
 !$acc end kernels
         call time(tcountY1)
         timeY = timeY + (tcountY1 -tcountY0)
-!
-        call mpi_barrier(lbecomm,ierr)
 !
         call time(tcountA1)
         call SYSTEM_CLOCK(countA1, count_rate, count_max)

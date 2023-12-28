@@ -60,7 +60,7 @@
            end do
         end do
 !        
-! first set border everywhere
+! second set bulk
         do k = 0+border, n+1-border
            do j = 0+border, m+1-border
               do i = 0+border, l+1-border

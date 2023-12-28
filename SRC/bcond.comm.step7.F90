@@ -51,18 +51,18 @@
 !
         integer      :: status_front(MPI_STATUS_SIZE)
         integer      :: status_rear(MPI_STATUS_SIZE)
-        integer      :: reqs_front(1)
-        integer      :: reqs_rear(1)
+        integer      :: reqs_front(2)
+        integer      :: reqs_rear(2)
 !        
         integer      :: status_right(MPI_STATUS_SIZE)
         integer      :: status_left(MPI_STATUS_SIZE)
-        integer      :: reqs_right(1)
-        integer      :: reqs_left(1)
+        integer      :: reqs_right(2)
+        integer      :: reqs_left(2)
 !        
         integer      :: status_up(MPI_STATUS_SIZE)
         integer      :: status_down(MPI_STATUS_SIZE)
-        integer      :: reqs_up(1)
-        integer      :: reqs_down(1)
+        integer      :: reqs_up(2)
+        integer      :: reqs_down(2)
 !        
 ! start timing...
         call SYSTEM_CLOCK(countA0, count_rate, count_max)
@@ -115,6 +115,7 @@
         endif
 !
 !           
+!----------------------------------------------------------------
 ! First pack data.....                
         call time(tcountZ0)
 !$acc kernels
@@ -173,81 +174,95 @@
         call time(tcountY1)
         timeY = timeY + (tcountY1 -tcountY0)
 !           
-! Second send data.....                
+!----------------------------------------------------------------
+! Second receive data
+        tag = 34
+!$acc host_data use_device(bufferZOUTP)
+        call mpi_irecv(bufferZOUTP(0,0,1), msgsizez, MYMPIREAL, down(2), tag, &
+                          lbecomm, reqs_up(1), ierr)
+!$acc end host_data
+!
+        tag = 32
+!$acc host_data use_device(bufferZOUTM)
+        call mpi_irecv(bufferZOUTM(0,0,1), msgsizez, MYMPIREAL, up(2), tag, &
+                          lbecomm, reqs_down(1), ierr)
+!$acc end host_data
+!
+        tag = 11
+!$acc host_data use_device(bufferXOUTP)
+        call mpi_irecv(bufferXOUTP(0,0,1),msgsizeX,MYMPIREAL,rear(2), tag, &
+                          lbecomm, reqs_front(1), ierr)
+!$acc end host_data
+!                     
+        tag = 10
+!$acc host_data use_device(bufferXOUTM)
+        call mpi_irecv(bufferXOUTM(0,0,1),msgsizeX,MYMPIREAL,front(2),tag, &
+                             lbecomm, reqs_rear(1), ierr)
+!$acc end host_data
+!
+        tag = 23
+!$acc host_data use_device(bufferYOUTP)
+        call mpi_irecv(bufferYOUTP(0,0,1), msgsizey, MYMPIREAL,left(2), tag, &
+                          lbecomm, reqs_right(1), ierr)
+!$acc end host_data
+!                  
+        tag = 21
+!$acc host_data use_device(bufferYOUTM)
+        call mpi_irecv(bufferYOUTM(0,0,1), msgsizey, MYMPIREAL,right(2), tag, &
+                          lbecomm, reqs_left(1), ierr)
+!$acc end host_data
+!
+!----------------------------------------------------------------
+! Third send data.....                
         tag = 34
 !$acc host_data use_device(bufferZINP)
         call mpi_isend(bufferZINP(0,0,1), msgsizez, MYMPIREAL, up(2), tag, &
-                          lbecomm, reqs_up(1), ierr)
+                          lbecomm, reqs_up(2), ierr)
 !$acc end host_data
 !
         tag = 32
 !$acc host_data use_device(bufferZINM)
         call mpi_isend(bufferZINM(0,0,1), msgsizez, MYMPIREAL, down(2), tag, &
-                          lbecomm, reqs_down(1), ierr)
+                          lbecomm, reqs_down(2), ierr)
 !$acc end host_data
 !
         tag = 11
 !$acc host_data use_device(bufferXINP)
         call mpi_isend(bufferXINP(0,0,1),msgsizeX,MYMPIREAL,front(2),tag, &
-                          lbecomm, reqs_front(1), ierr)
+                          lbecomm, reqs_front(2), ierr)
 !$acc end host_data
 !
         tag = 10
 !$acc host_data use_device(bufferXINM)
         call mpi_isend(bufferXINM(0,0,1),msgsizex,MYMPIREAL,rear(2),tag, &
-                          lbecomm, reqs_rear(1), ierr)
+                          lbecomm, reqs_rear(2), ierr)
 !$acc end host_data
 !
         tag = 23
 !$acc host_data use_device(bufferYINP)
         call mpi_isend(bufferYINP(0,0,1), msgsizeY, MYMPIREAL,right(2), tag, &
-                          lbecomm, reqs_right(1), ierr)
+                          lbecomm, reqs_right(2), ierr)
 !$acc end host_data
 !
         tag = 21
 !$acc host_data use_device(bufferYINM)
         call mpi_isend(bufferYINM(0,0,1), msgsizey, MYMPIREAL, left(2), tag, &
-                          lbecomm, reqs_left(1), ierr)
+                          lbecomm, reqs_left(2), ierr)
 !$acc end host_data
 !
-! Third receive data
-        tag = 34
-!$acc host_data use_device(bufferZOUTP)
-        call mpi_recv(bufferZOUTP(0,0,1), msgsizez, MYMPIREAL, down(2), tag, &
-                          lbecomm, status_up, ierr)
-!$acc end host_data
+!----------------------------------------------------------------
+! forth  wait...           
+        call MPI_Waitall(2,reqs_up   ,MPI_STATUSES_IGNORE, ierr)
+        call MPI_Waitall(2,reqs_down ,MPI_STATUSES_IGNORE, ierr)
+        call MPI_Waitall(2,reqs_rear ,MPI_STATUSES_IGNORE, ierr)
+        call MPI_Waitall(2,reqs_front,MPI_STATUSES_IGNORE, ierr)
+        call MPI_Waitall(2,reqs_left ,MPI_STATUSES_IGNORE, ierr)
+        call MPI_Waitall(2,reqs_right,MPI_STATUSES_IGNORE, ierr)
 !
-        tag = 32
-!$acc host_data use_device(bufferZOUTM)
-        call mpi_recv(bufferZOUTM(0,0,1), msgsizez, MYMPIREAL, up(2), tag, &
-                          lbecomm, status_down, ierr)
-!$acc end host_data
+        call mpi_barrier(lbecomm,ierr)
 !
-        tag = 11
-!$acc host_data use_device(bufferXOUTP)
-        call mpi_recv(bufferXOUTP(0,0,1),msgsizeX,MYMPIREAL,rear(2), tag, &
-                          lbecomm, status_front, ierr)
-!$acc end host_data
-!                     
-        tag = 10
-!$acc host_data use_device(bufferXOUTM)
-        call mpi_recv(bufferXOUTM(0,0,1),msgsizeX,MYMPIREAL,front(2),tag, &
-                             lbecomm, status_rear, ierr)
-!$acc end host_data
-!
-        tag = 23
-!$acc host_data use_device(bufferYOUTP)
-        call mpi_recv(bufferYOUTP(0,0,1), msgsizey, MYMPIREAL,left(2), tag, &
-                          lbecomm, status_right, ierr)
-!$acc end host_data
-!                  
-        tag = 21
-!$acc host_data use_device(bufferYOUTM)
-        call mpi_recv(bufferYOUTM(0,0,1), msgsizey, MYMPIREAL,right(2), tag, &
-                          lbecomm, status_left, ierr)
-!$acc end host_data
-!
-!Fourth unpack data
+!----------------------------------------------------------------
+!fifth unpack data
         call time(tcountZ0)
 !$acc kernels
         do j = 0,m+1
@@ -304,14 +319,6 @@
 !$acc end kernels
         call time(tcountY1)
         timeY = timeY + (tcountY1 -tcountY0)
-!
-! Fifth  wait...           
-        call mpi_wait(reqs_up(1), status_up, ierr)
-        call mpi_wait(reqs_down(1), status_down, ierr)
-        call mpi_wait(reqs_rear(1), status_rear, ierr)
-        call mpi_wait(reqs_front(1), status_front, ierr)
-        call mpi_wait(reqs_left(1), status_left, ierr)
-        call mpi_wait(reqs_right(1), status_right, ierr)
 !
         call mpi_barrier(lbecomm,ierr)
 !

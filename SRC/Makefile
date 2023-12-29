@@ -113,7 +113,7 @@ endif
 ifdef STEP8
  FIX=-DSTEP8 -acc -Minfo=acc -DOPENACC -DFAST
  OBJ1= bcond.comm.step8.o \
-       do_somethingGPU_masked.o 
+       do_somethingGPU_overlap.o 
  VER=step8
 endif
 #

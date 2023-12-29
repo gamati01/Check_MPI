@@ -1,4 +1,4 @@
-! =====================================================================
+!=====================================================================
 !     ****** LBE/bgk3D
 !
 !     COPYRIGHT
@@ -65,11 +65,7 @@
       call SYSTEM_CLOCK(countE0,count_rate,count_max)
       call time(tcountE0)
 !
-#ifdef STEP8
-!$acc data copy(field1,field2,field3,temp1,temp2,temp3,mask)
-#else
 !$acc data copy(field1,field2,field3,temp1,temp2,temp3)
-#endif
 !
 ! main loop starts here.....
       do itime=1,itfin
@@ -77,7 +73,7 @@
 
 #ifdef STEP8         
 ! do something on GPU (only borders)
-         call do_somethingGPU_masked(opt) 
+         call do_somethingGPU_overlap
 #else
 ! do something on GPU (all)
          call do_somethingGPU   

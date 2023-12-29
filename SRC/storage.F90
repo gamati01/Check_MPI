@@ -55,8 +55,5 @@
         real(mystor), dimension(:,:,:), allocatable :: field1, temp1
         real(mystor), dimension(:,:,:), allocatable :: field2, temp2
         real(mystor), dimension(:,:,:), allocatable :: field3, temp3
-#ifdef STEP8
-        integer, dimension(:,:,:), allocatable :: mask
-#endif        
 !
         end module  storage

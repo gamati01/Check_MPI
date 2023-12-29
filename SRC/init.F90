@@ -47,29 +47,6 @@
            end do
         end do
 !        
-#ifdef STEP8
-! mask=1 ---> bulk        
-! mask=0 ---> border        
-!        
-! first set border everywhere        
-        do k = 0, n+1
-           do j = 0, m+1
-              do i = 0, l+1
-                 mask(i,j,k) = 0
-              end do
-           end do
-        end do
-!        
-! second set bulk
-        do k = 0+border, n+1-border
-           do j = 0+border, m+1-border
-              do i = 0+border, l+1-border
-                 mask(i,j,k) = 1
-              end do
-           end do
-        end do
-#endif
-!        
 ! check        
         if(myrank==0) then
            do i = 0, l+1

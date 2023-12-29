@@ -1,5 +1,5 @@
 !=======================================================================
-!     ****** LBE/do_somethingGPU_masked
+!     ****** LBE/do_somethingGPU_overlap
 !
 !     COPYRIGHT
 !       (c) 2000-2011 by CASPUR/G.Amati
@@ -19,7 +19,7 @@
 !     *****
 !=======================================================================
 !
-      subroutine do_somethingGPU_masked(opt)
+      subroutine do_somethingGPU_overlap
 !
         use storage
         use timing
@@ -54,9 +54,8 @@
 ! 
 #ifdef DEBUG_1
         if(myrank == 0) then
-           write(6,*) "DEBUG1: Exiting from sub. do_somethingGPU_masked"&
-                              , opt
+           write(6,*) "DEBUG1: Exiting from sub. do_somethingGPU_olverlap"
         endif
 #endif
 !
-        end subroutine do_somethingGPU_masked
+        end subroutine do_somethingGPU_overlap

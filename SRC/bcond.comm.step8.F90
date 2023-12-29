@@ -254,10 +254,18 @@
 ! -----------------------------------------------------------------------------------
 !                  
 ! overlap region
-! run over bulk region
-        opt = 1
-        call do_somethingGPU_masked(opt)
-!        call mpi_barrier(lbecomm,ierr)
+!$acc kernels
+        do k = 1, n
+           do j = 1, m
+              do i = 1, l
+                 temp1(i,j,k) = field1(i,j,k)
+                 temp2(i,j,k) = field2(i,j,k)
+                 temp3(i,j,k) = field3(i,j,k)
+              end do
+           end do
+        end do
+!$acc end kernels
+
 !        
 !----------------------------------------------------------------
 ! forth  wait...           
@@ -277,14 +285,14 @@
         do j = 0,m+1
            do i = 0,l+1
 ! z+ direction
-              field1(i,j,0)=bufferZOUTP(i,j,1)
-              field2(i,j,0)=bufferZOUTP(i,j,2)
-              field3(i,j,0)=bufferZOUTP(i,j,3)
+              temp1(i,j,0)=bufferZOUTP(i,j,1)
+              temp2(i,j,0)=bufferZOUTP(i,j,2)
+              temp3(i,j,0)=bufferZOUTP(i,j,3)
 !
 ! z- direction
-              field1(i,j,n+1) = bufferZOUTM(i,j,1)
-              field2(i,j,n+1) = bufferZOUTM(i,j,2)
-              field3(i,j,n+1) = bufferZOUTM(i,j,3)
+              temp1(i,j,n+1) = bufferZOUTM(i,j,1)
+              temp2(i,j,n+1) = bufferZOUTM(i,j,2)
+              temp3(i,j,n+1) = bufferZOUTM(i,j,3)
            enddo
         enddo
 !$acc end kernels
@@ -296,14 +304,14 @@
         do k = 0,n+1
            do j = 0,m+1
 ! x+ direction
-              field1(0,j,k) = bufferXOUTP(j,k,1)
-              field2(0,j,k) = bufferXOUTP(j,k,2)
-              field3(0,j,k) = bufferXOUTP(j,k,3)
+              temp1(0,j,k) = bufferXOUTP(j,k,1)
+              temp2(0,j,k) = bufferXOUTP(j,k,2)
+              temp3(0,j,k) = bufferXOUTP(j,k,3)
 !
 ! x- direction
-              field1(l+1,j,k) = bufferXOUTM(j,k,1)
-              field2(l+1,j,k) = bufferXOUTM(j,k,2)
-              field3(l+1,j,k) = bufferXOUTM(j,k,3)
+              temp1(l+1,j,k) = bufferXOUTM(j,k,1)
+              temp2(l+1,j,k) = bufferXOUTM(j,k,2)
+              temp3(l+1,j,k) = bufferXOUTM(j,k,3)
            enddo
         enddo
 !$acc end kernels
@@ -312,19 +320,19 @@
 !           
         call time(tcountY0)
 !$acc kernels
-           do k = 0,n+1
-              do i = 0,l+1
+        do k = 0,n+1
+           do i = 0,l+1
 ! y+ direction
-                 field1(i,0,k)=bufferYOUTP(i,k,1)
-                 field2(i,0,k)=bufferYOUTP(i,k,2)
-                 field3(i,0,k)=bufferYOUTP(i,k,3)
+              temp1(i,0,k)=bufferYOUTP(i,k,1)
+              temp2(i,0,k)=bufferYOUTP(i,k,2)
+              temp3(i,0,k)=bufferYOUTP(i,k,3)
 !                 
 ! y- direction
-                 field1(i,m+1,k)=bufferYOUTM(i,k,1)
-                 field2(i,m+1,k)=bufferYOUTM(i,k,2)
-                 field3(i,m+1,k)=bufferYOUTM(i,k,3)
-              enddo
+              temp1(i,m+1,k)=bufferYOUTM(i,k,1)
+              temp2(i,m+1,k)=bufferYOUTM(i,k,2)
+              temp3(i,m+1,k)=bufferYOUTM(i,k,3)
            enddo
+        enddo
 !$acc end kernels
         call time(tcountY1)
         timeY = timeY + (tcountY1 -tcountY0)

@@ -32,39 +32,13 @@
         call SYSTEM_CLOCK(countC0, count_rate, count_max)
         call time(tcountC0)
 !
-#ifdef DEBUG_1        
-        if (opt==0) then 
-           write(6,*) "INFO: processing only bulk"
-        endif     
-!        
-        if (opt==1) then 
-           write(6,*) "INFO: processing only border"
-        endif     
-#endif        
-!        
-!$acc kernels
-        do k = 0, n+1
-           do j = 0, m+1
-              do i = 0, l+1
-!                 if(mask(i,j,k)==opt) then
-                    temp1(i,j,k) = field1(i,j,k)
-                    temp2(i,j,k) = field2(i,j,k)
-                    temp3(i,j,k) = field3(i,j,k)
-!                 endif
-              end do
-           end do
-        end do
-!$acc end kernels
-!        
 !$acc kernels
         do k = 1, n
            do j = 1, m
               do i = 1, l
-                 if(mask(i,j,k)==opt) then
-                    field1(i,j,k) = temp1(i-1,  j,  k)
-                    field2(i,j,k) = temp2(  i,j-1,  k)
-                    field3(i,j,k) = temp3(  i,  j,k-1)
-                 endif
+                 field1(i,j,k) = temp1(i-1,  j,  k)
+                 field2(i,j,k) = temp2(  i,j-1,  k)
+                 field3(i,j,k) = temp3(  i,  j,k-1)
               end do
            end do
         end do

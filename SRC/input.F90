@@ -23,25 +23,23 @@
 !     *****
 ! =====================================================================
 !
-      subroutine input(itfin,icheck,border)
+      subroutine input(itfin,icheck)
 !
       use storage
       use timing
 ! 
       implicit none
 !
-      integer:: itfin,icheck,border
+      integer:: itfin,icheck
       integer:: irestart
 !
       namelist /parameters/ itfin, icheck,  & 
      &                      lx, ly, lz,     &
-     &                      border          &
      &                      proc_x, proc_y, proc_z
 !
 !     default
 
       icheck = 100
-      border = 10
 !      
       open(15,FILE='file.input',STATUS='old')
       read(15,parameters)

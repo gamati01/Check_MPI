@@ -40,26 +40,23 @@
       implicit none
 !
       INTEGER:: itfin, ierr
-      INTEGER:: itime, icheck,border
+      INTEGER:: itime, icheck
       INTEGER:: opt
 !
-! border (only STEP8)      
-      opt = 0      
-!
 ! reading run input
-      call input(itfin,icheck,border)
+      call input(itfin,icheck)
 !      
 ! setup mpi stuff
       call setup_MPI
 !
 ! some info
-      call outdat(itfin,icheck,border)
+      call outdat(itfin,icheck)
 !
 ! fields allocation
       call alloca
 !      
 ! initialize the fields...
-      call init(border)
+      call init
 !
 ! start timing       
       call SYSTEM_CLOCK(countE0,count_rate,count_max)
@@ -72,10 +69,10 @@
          call boundaries         ! MPI call 
 
 #ifdef STEP8         
-! do something on GPU (only borders)
+! do something on GPU 
          call do_somethingGPU_overlap
 #else
-! do something on GPU (all)
+! do something on GPU 
          call do_somethingGPU   
 #endif         
 !

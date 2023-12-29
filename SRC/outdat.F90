@@ -20,12 +20,12 @@
 !     *****
 ! =====================================================================
 !
-      subroutine outdat(itfin,icheck,border)
+      subroutine outdat(itfin,icheck)
 !
       use storage
       implicit none
 !
-      INTEGER     :: itfin,icheck,border
+      INTEGER     :: itfin,icheck
       character*15 :: comms
 !
       if(myrank==0) then 
@@ -69,7 +69,6 @@
          write(6,*) 'precision    =',MYMPIREAL
          write(6,*) '*********** implementation ******************'
          write(6,*) 'COMMS        =', comms
-         write(6,*) 'border       =', border
          write(6,*) '*********************************************'
       endif
 

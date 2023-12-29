@@ -20,13 +20,12 @@
 !     *****
 !=======================================================================
 !
-        subroutine init(border)
+        subroutine init
 !
         use storage
         implicit none
 !
         integer i,j,k,ierr
-        integer border
 !
         real(mykind) ::  x,y,z,xj,yj,zj,pi
 !

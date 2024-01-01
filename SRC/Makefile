@@ -5,42 +5,13 @@
 #----------------------------------------------
 # notes:
 #
-# 	1) works correctly using gmake
-#	2) check on
-#		Intel/AMD
+# 	1) .....
 #
 #----------------------------------------------
 # targets:
 #
-#		serial ---> serial code
-#		openmp ---> serial + openmp
-#               mpi    ---> mpi
-#		all    ---> mpi + openmp
 # 
 # flags
-#               DBL = -DDOUBLE_P (double precision, default)
-#               DBL =            (single precision)
-#               * NON BLOCK (or SENDRECV)
-#               * DOMAIN DECOMPOSITION (or MULTIBLOCK)
-#               * CHANNEL/DUCT/DRIVEN/COUETTE/NOSLIP
-#               * FUSED (or ORIGINAL)
-#               * PARALLEL (or SERIAL)
-#               * FORCING_X (or FORCING_Y/FORCING_Z)
-#               * RAW (or HDF5/MPIIO)
-#
-#               FERMI: FIX = -WF,-DDEBUG_1,-DDEBUG_2,-DFERMI_FIX
-#               KNL: make hybrid "FIX = -qopt-report-phase=vec -xmic-avx512 -qopt-prefetch=5 -qopt-report=4 -DKNOWN_TRIP_COUNT"
-#               KNL: make openmp KNL=1  " FIX=-assume contiguous_pointer -qopt-zmm-usage=high " 
-#                Pointers --> FIX=-assume contiguous_pointer 
-# #
-# make serial FUGAKU=1 "FIX= -DFUGAKU -Knoalias=s -Kfast -mcpu=a64fx -Kassume=notime_saving_compilation
-# 
-# make serial FUGAKU=1 "FIX= -DFUGAKU -Knoalias=s -Kfast -mcpu=a64fx -Kassume=notime_saving_compilation -Kopenmp -Kopenmp_assume_norecurrence -Nfjomplib -Koptmsg=2 -Kswp_strong"
-# 
-# make FUGAKU=1 COMM=1 "FIX= -DFUGAKU -Knoalias=s -Kfast -mcpu=a64fx -Kassume=notime_saving_compilation  -Kopenmp_assume_norecurrence -Koptmsg=2 -Kswp_strong -DORIGINAL"
-# 
-#
-#
 #
 #----------------------------------------------
 #
@@ -59,14 +30,12 @@ FINE = "********** Fine Compilazione *********"
  FC = mpifort
  FIX = -DPGI
  FOPT = -fast -Mcontiguous -Mnodepchk
- COPT = 
  OPT = -fast -Mcontiguous -Mnodepchk
 #
 ifdef GNU
  CC = mpicc
  FC = mpif90
  FOPT = -ftree-vectorize -Ofast
- COPT = -ftree-vectorize -Ofast
  OPT  = -ftree-vectorize -Ofast
 endif
 #
@@ -86,42 +55,53 @@ ifdef STEP2
 endif
 #
 ifdef STEP3
- FIX=-DSTEP3 -acc -Minfo=acc -DOPENACC -DFAST
+ FIX=-DSTEP3
+ GPU= -acc -Minfo=acc -DOPENACC -DFAST
  VER=step3
 endif
 #
 ifdef STEP4
- FIX=-DSTEP4 -acc -Minfo=acc -DOPENACC -DFAST
+ FIX= -DSTEP4
+ GPU= -acc -Minfo=acc -DOPENACC -DFAST
  VER=step4
 endif
 #
 ifdef STEP5
- FIX=-DSTEP5 -acc -Minfo=acc -DOPENACC -DFAST
+ FIX= -DSTEP5
+ GPU= -acc -Minfo=acc -DOPENACC -DFAST
  VER=step5
 endif
 #
 ifdef STEP6
- FIX=-DSTEP6 -acc -Minfo=acc -DOPENACC -DFAST
+ FIX= -DSTEP6
+ GPU= -acc -Minfo=acc -DOPENACC -DFAST
  VER=step6
 endif
 #
 ifdef STEP7
- FIX=-DSTEP7 -acc -Minfo=acc -DOPENACC -DFAST
+ FIX= -DSTEP7
+ GPU= -acc -Minfo=acc -DOPENACC -DFAST
  VER=step7
 endif
 #
 ifdef STEP8
- FIX=-DSTEP8 -acc -Minfo=acc -DOPENACC -DFAST
+ FIX= -DSTEP8
+ GPU= -acc -Minfo=acc -DOPENACC -DFAST
  OBJ1= bcond.comm.step8.o \
        do_somethingGPU_overlap.o 
  VER=step8
 endif
 #
 ifdef STEP9
- FIX=-DSTEP9 -acc -Minfo=acc -DOPENACC -DFAST
+ FIX= -DSTEP9
+ GPU= -acc -Minfo=acc -DOPENACC -DFAST
  OBJ1= bcond.comm.step9.o \
        do_somethingGPU_overlap.o
  VER=step9
+endif
+#
+ifdef GPUENABLE
+ FOPT+=$(GPU) 
 endif
 #
 #----------------------------------------------
@@ -156,7 +136,7 @@ OBJ  = storage.o \
 #----------------------------------------------
 #
 all: $(MOD) $(OBJ) $(OBJ1)
-	$(FC) $(OPT) $(OBJ) $(OBJ1) $(FIX) $(TRY) $(LIB) -o ../RUN/mpi_gpuaware.$(VER).x 
+	$(FC) $(FOPT) $(OBJ) $(OBJ1) $(FIX) $(TRY) $(LIB) -o ../RUN/mpi_gpuaware.$(VER).x 
 	@echo $(FINE)
 
 #----------------------------------------------

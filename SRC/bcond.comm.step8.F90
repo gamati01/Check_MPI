@@ -119,7 +119,7 @@
 !----------------------------------------------------------------
 ! First pack data.....                
         call time(tcountZ0)
-!$acc kernels async
+!$acc kernels 
         do j = 0,m+1
            do i = 0,l+1
 ! z+ direction              
@@ -138,7 +138,7 @@
         timeZ = timeZ + (tcountZ1 -tcountZ0)
 !
         call time(tcountX0)
-!$acc kernels async
+!$acc kernels 
         do k = 0,n+1
            do j = 0,m+1
 ! x+ direction              
@@ -157,7 +157,7 @@
         timeX = timeX + (tcountX1 -tcountX0)
 !
         call time(tcountY0)
-!$acc kernels async
+!$acc kernels 
         do k = 0,n+1
            do i = 0,l+1
 ! y+ direction              
@@ -175,7 +175,6 @@
         call time(tcountY1)
         timeY = timeY + (tcountY1 -tcountY0)
 !           
-!$acc wait 
 !----------------------------------------------------------------
 ! Second receive data
         tag = 34
@@ -255,7 +254,7 @@
 ! -----------------------------------------------------------------------------------
 !                  
 ! overlap region
-!$acc kernels async
+!$acc kernels 
         do k = 1, n
            do j = 1, m
               do i = 1, l
@@ -282,7 +281,7 @@
 !----------------------------------------------------------------
 !fifth unpack data
         call time(tcountZ0)
-!$acc kernels async 
+!$acc kernels 
         do j = 0,m+1
            do i = 0,l+1
 ! z+ direction
@@ -301,7 +300,7 @@
         timeZ = timeZ + (tcountZ1 -tcountZ0)
 !
         call time(tcountX0)
-!$acc kernels async 
+!$acc kernels 
         do k = 0,n+1
            do j = 0,m+1
 ! x+ direction
@@ -320,7 +319,7 @@
         timeX = timeX + (tcountX1 -tcountX0)
 !           
         call time(tcountY0)
-!$acc kernels async 
+!$acc kernels 
         do k = 0,n+1
            do i = 0,l+1
 ! y+ direction
@@ -336,7 +335,6 @@
         enddo
 !$acc end kernels
 
-!$acc wait
         call time(tcountY1)
         timeY = timeY + (tcountY1 -tcountY0)
 !

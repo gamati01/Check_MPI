@@ -117,6 +117,13 @@ ifdef STEP8
  VER=step8
 endif
 #
+ifdef STEP9
+ FIX=-DSTEP9 -acc -Minfo=acc -DOPENACC -DFAST
+ OBJ1= bcond.comm.step9.o \
+       do_somethingGPU_overlap.o
+ VER=step9
+endif
+#
 #----------------------------------------------
 # Makefile section
 #----------------------------------------------

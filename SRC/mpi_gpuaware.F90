@@ -68,7 +68,10 @@
       do itime=1,itfin
          call boundaries         ! MPI call 
 
-#ifdef STEP8         
+#ifdef STEP9         
+! do something on GPU 
+         call do_somethingGPU_overlap
+#elif STEP8         
 ! do something on GPU 
          call do_somethingGPU_overlap
 #else

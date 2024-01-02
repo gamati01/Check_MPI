@@ -71,6 +71,11 @@
          write(6,*) 'precision    =',MYMPIREAL
          write(6,*) '*********** implementation ******************'
          write(6,*) 'COMMS        =', comms
+#ifdef GPUENABLE
+         write(6,*) 'VERSION      = GPU '
+#else
+         write(6,*) 'VERSION      = CPU '
+#endif
          write(6,*) '*********************************************'
       endif
 

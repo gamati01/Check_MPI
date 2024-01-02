@@ -101,6 +101,7 @@ ifdef STEP9
 endif
 #
 ifdef GPUENABLE
+ FIX+=-DGPUENABLE
  FOPT+=$(GPU) 
 endif
 #
@@ -166,7 +167,8 @@ info:  $(INC)
 	@echo "Modules          =  "$(MOD);
 	@echo "Objects          =  "$(OBJ);
 	@echo "Compiler         =  "$(FC);
-	@echo "Compiler flags   =  "$(OPT);
+	@echo "Compiler flags   =  "$(FOPT);
+	@echo "GPU      flags   =  "$(GPU);
 	@echo "Preproc  flags   =  "$(PREPROC);
 	@echo "Fix      flags   =  "$(FIX);
 	@echo "Try      flags   =  "$(TRY);

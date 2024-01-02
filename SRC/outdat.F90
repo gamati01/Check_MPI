@@ -26,7 +26,7 @@
       implicit none
 !
       INTEGER     :: itfin,icheck
-      character*15 :: comms
+      character*35 :: comms
 !
       if(myrank==0) then 
 !

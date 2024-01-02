@@ -32,6 +32,19 @@
         call SYSTEM_CLOCK(countC0, count_rate, count_max)
         call time(tcountC0)
 !
+#ifdef REVERSE
+!$acc kernels
+        do k = 1, n
+           do j = 1, m
+              do i = 1, l
+                 field1(i,j,k) = temp1(i+1,j  ,k  )
+                 field2(i,j,k) = temp2(i  ,j+1,k  )
+                 field3(i,j,k) = temp3(i  ,j  ,k+1)
+              end do
+           end do
+        end do
+!$acc end kernels        
+#else
 !$acc kernels
         do k = 1, n
            do j = 1, m
@@ -43,6 +56,7 @@
            end do
         end do
 !$acc end kernels
+#endif
 !        
 !        call mpi_barrier(lbecomm,ierr)
 !

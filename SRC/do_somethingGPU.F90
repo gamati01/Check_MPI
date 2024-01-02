@@ -64,6 +64,19 @@
         end do
 !$acc end kernels
 #else
+# ifdef REVERSE
+        !$acc kernels
+        do k = 1, n, 1
+           do j = 1, m, 1
+              do i = 1, l, 1
+                 field1(i,j,k) = field1(i+1,j,k)
+                 field2(i,j,k) = field2(i,j+1,k)
+                 field3(i,j,k) = field3(i,j,k+1)
+              end do
+           end do
+        end do
+!$acc end kernels
+# else
 !$acc kernels
         do k = n, 1, -1
            do j = m, 1, -1
@@ -75,6 +88,7 @@
            end do
         end do
 !$acc end kernels
+# endif
 #endif
 !        
         call mpi_barrier(lbecomm,ierr)

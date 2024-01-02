@@ -70,11 +70,17 @@
          write(6,*) 'icheck       =',icheck
          write(6,*) 'precision    =',MYMPIREAL
          write(6,*) '*********** implementation ******************'
-         write(6,*) 'COMMS        =', comms
+         write(6,*) 'COMMS        = ', comms
 #ifdef GPUENABLE
          write(6,*) 'VERSION      = GPU '
 #else
          write(6,*) 'VERSION      = CPU '
+#endif
+!
+#ifdef REVERSE
+         write(6,*) 'Validation   = Reverse '
+#else
+         write(6,*) 'Validation   = Standard '
 #endif
          write(6,*) '*********************************************'
       endif

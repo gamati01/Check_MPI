@@ -31,7 +31,7 @@
       if(myrank==0) then 
 !
 #ifdef STEP9
-         comms="STEP8-overlap with async"
+         comms="STEP9-overlap with async"
 #elif STEP8
          comms="STEP8-overlap"
 #elif STEP7

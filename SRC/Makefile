@@ -101,7 +101,7 @@ ifdef STEP9
 endif
 #
 ifdef GPUENABLE
- FIX+=-DGPUENABLE
+ FIX+= -DGPUENABLE
  FOPT+=$(GPU) 
 endif
 #

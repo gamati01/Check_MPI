@@ -32,11 +32,13 @@ FINE = "********** Fine Compilazione *********"
  FOPT = -fast -Mcontiguous -Mnodepchk
  OPT = -fast -Mcontiguous -Mnodepchk
 #
+# laptop
 ifdef GNU
  CC = mpicc
  FC = mpif90
  FOPT = -ftree-vectorize -Ofast
  OPT  = -ftree-vectorize -Ofast
+ mpiP = -L ~/LOCAL_SW/bin/mpiP/lib/ -lmpiP -lm -lbfd
 endif
 #
 #----------------------------------------------
@@ -105,6 +107,9 @@ ifdef GPUENABLE
  FOPT+=$(GPU) 
 endif
 #
+ifdef MPIP
+ LIB =$(mpiP) 
+endif
 #----------------------------------------------
 # Makefile section
 #----------------------------------------------

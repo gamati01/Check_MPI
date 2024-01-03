@@ -246,7 +246,7 @@
 !$acc kernels
            do k = 0,n+1
               do j = 0,m+1
-! x- direction                 
+! x+ direction                 
                  field1(0,j,k) = bufferXOUTP(j,k,1)
                  field2(0,j,k) = bufferXOUTP(j,k,2)
                  field3(0,j,k) = bufferXOUTP(j,k,3)

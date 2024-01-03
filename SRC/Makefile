@@ -31,6 +31,7 @@ FINE = "********** Fine Compilazione *********"
  FIX = -DPGI
  FOPT = -fast -Mcontiguous -Mnodepchk
  OPT = -fast -Mcontiguous -Mnodepchk
+ mpiP = -L /leonardo/home/userinternal/gamati01/LOCAL_SW/mpiP/lib -lmpiP -lm -lbfd
 #
 # laptop
 ifdef GNU
@@ -101,6 +102,10 @@ ifdef STEP9
        do_somethingGPU_overlap.o
  VER=step9
 endif
+#
+#----------------------------------------------
+# Other stuff
+#----------------------------------------------
 #
 ifdef GPUENABLE
  FIX+= -DGPUENABLE

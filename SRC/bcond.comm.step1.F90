@@ -144,7 +144,7 @@
            enddo
         enddo
 !
-!        call mpi_barrier(lbecomm,ierr)
+        call mpi_barrier(lbecomm,ierr)
 !
 ! comms along x - 
 !
@@ -152,7 +152,7 @@
 !        
         do k = 0,n+1
            do j = 0,m+1
-              bufferXIN(j,k)=field1(l,j,k)
+              bufferXIN(j,k)=field1(1,j,k)
            enddo
         enddo
 !        
@@ -162,7 +162,7 @@
 !
         do k = 0,n+1
            do j = 0,m+1
-              field1(0,j,k) = bufferXOUT(j,k)
+              field1(l+1,j,k) = bufferXOUT(j,k)
            enddo
         enddo
 !
@@ -170,7 +170,7 @@
 !        
         do k = 0,n+1
            do j = 0,m+1
-              bufferXIN(j,k)=field2(l,j,k)
+              bufferXIN(j,k)=field2(1,j,k)
            enddo
         enddo
 !        
@@ -180,7 +180,7 @@
 !
         do k = 0,n+1
            do j = 0,m+1
-              field2(0,j,k) = bufferXOUT(j,k)
+              field2(l+1,j,k) = bufferXOUT(j,k)
            enddo
         enddo
 !
@@ -188,7 +188,7 @@
 !
         do k = 0,n+1
            do j = 0,m+1
-              bufferXIN(j,k)=field3(l,j,k)
+              bufferXIN(j,k)=field3(1,j,k)
            enddo
         enddo
 !        
@@ -198,7 +198,7 @@
 !
         do k = 0,n+1
            do j = 0,m+1
-              field3(0,j,k) = bufferXOUT(j,k)
+              field3(l+1,j,k) = bufferXOUT(j,k)
            enddo
         enddo
 !

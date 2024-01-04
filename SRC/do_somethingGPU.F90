@@ -28,12 +28,7 @@
 !
         integer i,j,k,opt,ierr
 !
-        real(mykind) ::  x,y,z,xj,yj,zj,pi
-!
-        integer      :: nn, mm, ll
-!
-        parameter(pi=3.141592653589793238462643383279)
-!
+        real(mykind) ::  x,y,z
 !
 ! start timing
         call SYSTEM_CLOCK(countC0, count_rate, count_max)
@@ -57,9 +52,9 @@
         do k = 1, n
            do j = 1, m
               do i = 1, l
-                 field1(i,j,k) = temp1(i+1,j,k)
-                 field2(i,j,k) = temp2(i,j+1,k)
-                 field3(i,j,k) = temp3(i,j,k+1)
+                 field1(i,j,k) = temp1(i+1,j ,k )
+                 field2(i,j,k) = temp2(i ,j+1,k )
+                 field3(i,j,k) = temp3(i ,j ,k+1)
               end do
            end do
         end do
@@ -83,9 +78,9 @@
         do k = 1, n, 1
            do j = 1, m, 1
               do i = 1, l, 1
-                 field1(i,j,k) = field1(i+1,j,k)
-                 field2(i,j,k) = field2(i,j+1,k)
-                 field3(i,j,k) = field3(i,j,k+1)
+                 field1(i,j,k) = field1(i+1,j  ,k  )
+                 field2(i,j,k) = field2(i  ,j+1,k  )
+                 field3(i,j,k) = field3(i  ,j  ,k+1)
               end do
            end do
         end do
@@ -95,9 +90,9 @@
         do k = n, 1, -1
            do j = m, 1, -1
               do i = l, 1, -1
-                 field1(i,j,k) = field1(i-1,j,k)
-                 field2(i,j,k) = field2(i,j-1,k)
-                 field3(i,j,k) = field3(i,j,k-1)
+                 field1(i,j,k) = field1(i-1,j  ,k  )
+                 field2(i,j,k) = field2(i  ,j-1,k  )
+                 field3(i,j,k) = field3(i  ,j  ,k-1)
               end do
            end do
         end do

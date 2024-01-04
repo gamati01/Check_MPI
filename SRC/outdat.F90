@@ -82,6 +82,11 @@
 #else
          write(6,*) 'Validation   = Standard '
 #endif
+!         
+#ifdef MPIP
+         write(6,*) 'mpiP profiling enabled'
+#endif
+
          write(6,*) '*********************************************'
       endif
 

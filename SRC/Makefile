@@ -113,6 +113,7 @@ ifdef GPUENABLE
 endif
 #
 ifdef MPIP
+ FIX+= -DMPIP
  LIB =$(mpiP) 
 endif
 #----------------------------------------------

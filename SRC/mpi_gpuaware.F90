@@ -1,13 +1,12 @@
 !=====================================================================
-!     ****** LBE/bgk3D
+!     ****** mpi_gpuaware
 !
 !     COPYRIGHT
-!       (c) 2000-2011 by CASPUR/G.Amati
 !       (c) 2013-20?? by CINECA/G.Amati
 !     NAME
 !       bgk2d
 !     DESCRIPTION
-!       main program for LBM 3D
+!       driver for different mpi communication pattern
 !     INPUTS
 !       none
 !     OUTPUT
@@ -20,13 +19,11 @@
 !                               itime, itsave, icheck, itrestart
 !                               isignal
 !       real variables used: tempo1, tempo2     
-!       open the following unit: 16 (bgk.log)
-!                                60 (prof_k.dat)
-!                                61 (prof_i.dat)
-!                                62 (u_med.dat)
-!                                63 (diagno.dat)
-!                                68 (probe.dat)
-!                                69 (bgk.perf)
+!       open the following unit: 
+!                                6? (prof_k.dat)
+!                                6? (prof_j.dat)
+!                                6? (prof_i.dat)
+!                                6? (task.<taskid>.log)
 !                              
 !     *****
 ! =====================================================================
@@ -48,6 +45,11 @@
 !      
 ! setup mpi stuff
       call setup_MPI
+!      
+#ifdef MPIP
+! disable mpip (it is enabled by default)     
+      call MPI_PCONTROL( 0 )
+#endif
 !
 ! some info
       call outdat(itfin,icheck)
@@ -57,6 +59,11 @@
 !      
 ! initialize the fields...
       call init
+!
+#ifdef MPIP
+! enable mpip      
+      call MPI_PCONTROL( 1 )
+#endif
 !
 ! start timing       
       call SYSTEM_CLOCK(countE0,count_rate,count_max)
@@ -114,6 +121,11 @@
       time_loop = real(countE1-countE0)/(count_rate)
       time_loop1 = tcountE1-tcountE0
 !
+#ifdef MPIP
+! disable mpip      
+      call MPI_PCONTROL( 0 )
+#endif
+      
 ! finalize all
       call finalize(itfin)    
 !

@@ -68,7 +68,7 @@
 ! 
 #ifdef DEBUG_1
         if(myrank == 0) then
-           write(6,*) "DEBUG1: Exiting from sub. do_somethingGPU_olverlap"
+           write(6,*) "DEBUG1: Exiting from sub. do_somethingGPU_overlap"
         endif
 #endif
 !

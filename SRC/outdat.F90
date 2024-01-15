@@ -30,7 +30,9 @@
 !
       if(myrank==0) then 
 !
-#ifdef STEP9
+#ifdef STEP10
+         comms="STEP10-overlap with mask"
+#elif STEP9
          comms="STEP9-overlap with async"
 #elif STEP8
          comms="STEP8-overlap"

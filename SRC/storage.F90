@@ -45,6 +45,8 @@
         integer:: prgrid(mpid)
         integer:: mpicoords(mpid)
         integer:: mydev, ndev              ! openacc variables
+        integer, parameter::  zero=0
+        integer, parameter::  uno=1
 !
         integer(kind=MPI_OFFSET_KIND):: file_offset
 !
@@ -52,8 +54,24 @@
         logical periodic(mpid)
         logical rreorder
 !
+#ifdef STEP10
+        real(mystor), dimension(:,:,:), contiguous, pointer :: field1
+        real(mystor), dimension(:,:,:), contiguous, pointer :: field1post 
+        real(mystor), dimension(:,:,:), contiguous, pointer :: temp1 
+        real(mystor), dimension(:,:,:), contiguous, pointer :: field2
+        real(mystor), dimension(:,:,:), contiguous, pointer :: field2post 
+        real(mystor), dimension(:,:,:), contiguous, pointer :: temp2 
+        real(mystor), dimension(:,:,:), contiguous, pointer :: field3
+        real(mystor), dimension(:,:,:), contiguous, pointer :: field3post 
+        real(mystor), dimension(:,:,:), contiguous, pointer :: temp3 
+!
+        integer, dimension(:,:,:), allocatable :: mask
+!
+#else
         real(mystor), dimension(:,:,:), allocatable :: field1, temp1
         real(mystor), dimension(:,:,:), allocatable :: field2, temp2
         real(mystor), dimension(:,:,:), allocatable :: field3, temp3
+#endif
+
 !
         end module  storage

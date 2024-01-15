@@ -69,13 +69,20 @@
       call SYSTEM_CLOCK(countE0,count_rate,count_max)
       call time(tcountE0)
 !
+#ifdef STEP10
+!$acc data copy(field1,field2,field3,field1post,field2post,field3post,temp1,temp2,temp3,mask)
+#else 
 !$acc data copy(field1,field2,field3,temp1,temp2,temp3)
+#endif
 !
 ! main loop starts here.....
       do itime=1,itfin
          call boundaries         ! MPI call 
 
-#ifdef STEP9         
+#ifdef STEP10         
+! do something on GPU 
+         call do_somethingGPU_masked(uno)
+#elif STEP9         
 ! do something on GPU 
          call do_somethingGPU_overlap
 #elif STEP8         

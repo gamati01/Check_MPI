@@ -103,6 +103,14 @@ ifdef STEP9
  VER=step9
 endif
 #
+ifdef STEP10
+ FIX= -DSTEP10
+ GPU= -acc -Minfo=acc -DOPENACC -DFAST
+ OBJ1= bcond.comm.step10.o \
+       do_somethingGPU_masked.o
+ VER=step10
+endif
+#
 #----------------------------------------------
 # Other stuff
 #----------------------------------------------

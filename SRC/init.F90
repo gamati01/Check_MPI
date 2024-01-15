@@ -30,9 +30,32 @@
         real(mykind) ::  x,y,z,xj,yj,zj,pi
 !
         integer      :: nn, mm, ll
+        integer      :: border
 !
         parameter(pi=3.141592653589793238462643383279)
 !
+        border=10
+#ifdef STEP10
+! first set everything to border        
+        do k = 1, n
+           do j = 1, m
+              do i = 1, l
+                 mask(i,j,k) = uno
+              end do
+           end do
+        end do
+!        
+! second set the bulk
+        do k = border, n-border
+           do j = border, m-border
+              do i = border, l-border
+                 mask(i,j,k) = zero
+              end do
+           end do
+        end do
+!        
+#endif
+
         do k = 0, n+1
            z = (2.0*pi*(float(k-1)/float(n)))
            do j = 0, m+1

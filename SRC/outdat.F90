@@ -84,6 +84,10 @@
 #else
          write(6,*) 'Validation   = Standard '
 #endif
+!
+#ifdef STEP10
+         write(6,*) 'Border       =', border
+#endif
 !         
 #ifdef MPIP
          write(6,*) 'mpiP profiling enabled'

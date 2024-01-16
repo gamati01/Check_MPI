@@ -45,6 +45,7 @@
         integer:: prgrid(mpid)
         integer:: mpicoords(mpid)
         integer:: mydev, ndev              ! openacc variables
+        integer:: border
         integer, parameter::  zero=0
         integer, parameter::  uno=1
 !
@@ -72,6 +73,5 @@
         real(mystor), dimension(:,:,:), allocatable :: field2, temp2
         real(mystor), dimension(:,:,:), allocatable :: field3, temp3
 #endif
-
 !
         end module  storage

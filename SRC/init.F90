@@ -30,11 +30,9 @@
         real(mykind) ::  x,y,z,xj,yj,zj,pi
 !
         integer      :: nn, mm, ll
-        integer      :: border
 !
         parameter(pi=3.141592653589793238462643383279)
 !
-        border=10
 #ifdef STEP10
 ! first set everything to border        
         do k = 1, n

@@ -44,9 +44,9 @@
         end do
 !        
 ! second set the bulk
-        do k = border, n-border
-           do j = border, m-border
-              do i = border, l-border
+        do k = 1+border, n-border
+           do j = 1+border, m-border
+              do i = 1+border, l-border
                  mask(i,j,k) = zero
               end do
            end do

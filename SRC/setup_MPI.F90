@@ -114,9 +114,11 @@
 !
       call mpi_barrier(MPI_COMM_WORLD,ierr)
 !
-! x dir  & y dir
+! x dir
       call MPI_cart_shift(lbecomm, 0, 1, rear(2), front(2), ierr)
+! y dir
       call MPI_cart_shift(lbecomm, 1, 1, left(2), right(2), ierr)
+! z dir
       call MPI_cart_shift(lbecomm, 2, 1, down(2), up(2), ierr)
 !
 ! yz plane is composed by single point (stride.ne.1)

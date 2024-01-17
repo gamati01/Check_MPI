@@ -54,6 +54,8 @@
          comms="STEP0"
 #endif
 !
+         call git_info
+!         
          write(6,*) ' '
          write(6,*) '*********** size of the lattice **************'
          write(6,*) 'lx (width x) =',lx

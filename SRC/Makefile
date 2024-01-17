@@ -1,5 +1,5 @@
 #----------------------------------------------
-# makefile per BGK
+# makefile for Chek_MPI
 # Giorgio Amati, CASPUR 2000-2012
 # Giorgio Amati, CINECA 2013-20??
 #----------------------------------------------
@@ -151,6 +151,7 @@ OBJ  = storage.o \
        prof_i.o \
        prof_j.o \
        prof_k.o \
+       git_info.o \
        outdat.o \
 
 #----------------------------------------------
@@ -175,6 +176,13 @@ all: $(MOD) $(OBJ) $(OBJ1)
 
 %.p: %.f90
 	$(FC) $(FOPT) $(DBL) $(PREPROC) $(FIX) $(TRY) $<
+
+git_info.F90:
+	echo "    subroutine git_info"                              >> git_info.F90
+	echo "    write( 6,*) \""INFO: `git log  | head  -n 1` \"   >> git_info.F90
+	echo "    write(16,*) \""INFO: `git log  | head  -n 1` \"   >> git_info.F90
+	echo "    end subroutine git_info"                          >> git_info.F90
+#
 
 #----------------------------------------------
 clean:

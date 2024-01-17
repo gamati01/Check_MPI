@@ -72,7 +72,10 @@
       call mpi_barrier(lbecomm,ierr)
 !
       if(myrank==0) then
+          write(6,9999)
+          write(6,2000) time_loop, time_loop1
           write(6,*) "INFO: That's all Folks!!!!!! "
+          write(6,9999)
       endif      
       call MPI_finalize(ierr)
 !
@@ -88,6 +91,7 @@
 1203  format(" # Ratio Dg.  ",2(f7.3,1x))
 1215  format(" # Ratio MPI  ",2(f7.3,1x))
 1216  format(" # Check      ",2(f7.3,1x))
+2000  format(" # loop   time",2(e14.6,1x))
 !1110  format(" # Memory (start,stop)",2(f14.6,1x), "MB")  ! double precision only
 !
 #ifdef DEBUG_1

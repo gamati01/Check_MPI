@@ -35,7 +35,7 @@
 !
       namelist /parameters/ itfin, icheck,  & 
      &                      lx, ly, lz,     &
-     &                      border          & 
+     &                      border,         & 
      &                      proc_x, proc_y, proc_z
 !
 !     default
